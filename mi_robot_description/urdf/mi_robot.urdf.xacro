@@ -3,29 +3,46 @@
 
   <!-- Reusable Properties -->
   <!-- Chassis-->
-  <xacro:property name="chassis_length" value="0.4"/>
-  <xacro:property name="chassis_width" value="0.3"/>
-  <xacro:property name="chassis_height" value="0.1"/>
+  <xacro:property name="chassis_xlength" value="0.265"/>
+  <xacro:property name="chassis_ylength" value="0.094"/>
+  <xacro:property name="chassis_zlength" value="0.073"/>
+  <xacro:property name="chassis_mass" value="0.670"/>
+  <xacro:property name="chassis_zOfffset" value="0.015"/>
+ 
   <!-- Wheels-->
   <xacro:property name="wheel_radius" value="3.25"/>
   <xacro:property name="wheel_width" value="2.8"/>
+  <xacro:property name="wheel_xoffset" value="0.055"/>
+  <xacro:property name="wheel_mass" value="0.032"/>
 
+  <!-- Constants-->
+  <xacro:property name="pi" value="3.1415926535"/>
+ 
   <!-- Chasis -->
   <link name="base_link">
     <visual>
       <geometry>
-        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+        <box size="${chassis_xlength} ${chassis_ylength} ${chassis_zlength}"/>
       </geometry>
+      <origin xyz="0 0 ${chassis_zOfffset}" rpy="0 0 0"/>
       <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
     </visual>
     <collision>
       <geometry>
-        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+        <box size="${chassis_xlength} ${chassis_ylength} ${chassis_zlength}"/>
       </geometry>
+      <origin xyz="0 0 ${chassis_zOfffset}" rpy="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="5.0"/>
-      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    <origin xyz="0 0 ${chassis_zOfffset}" rpy="0 0 0"/>
+      <mass value="${chassis_mass}"/>
+      <inertia 
+      ixx="$1/12*(chassis_ylength^2 + chassis_zlength^2)*chassis_mass" 
+      ixy="0" 
+      ixz="0" 
+      iyy="$1/12*(chassis_xlength^2 + chassis_zlength^2)*chassis_mass" 
+      iyz="0" 
+      izz="$1/12*(chassis_xlength^2 + chassis_ylength^2)*chassis_mass"/>
     </inertial>
   </link>
 
