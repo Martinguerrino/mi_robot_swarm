@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mi_robot">
+
+  <!-- Reusable Properties -->
+  <!-- Chassis-->
+  <xacro:property name="chassis_length" value="0.4"/>
+  <xacro:property name="chassis_width" value="0.3"/>
+  <xacro:property name="chassis_height" value="0.1"/>
+  <!-- Wheels-->
+  <xacro:property name="wheel_radius" value="3.25"/>
+  <xacro:property name="wheel_width" value="2.8"/>
+
+  <!-- Chasis -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+      <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+  </link>
+
+  <!-- Macro para una rueda -->
+  <xacro:macro name="wheel_macro" params="wheel_name x y">
+    <link name="${wheel_name}_link">
+      <visual>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+        <material name="black"><color rgba="0 0 0 1"/></material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${wheel_name}_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${wheel_name}_link"/>
+      <origin xyz="${x} ${y} ${-chassis_height/2}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- Ruedas (invocar macro) -->
+  <xacro:wheel_macro wheel_name="wheel_fl" x="${chassis_length/2 - wheel_width/2}" y="${chassis_width/2 - wheel_radius}"/>
+  <xacro:wheel_macro wheel_name="wheel_fr" x="${chassis_length/2 - wheel_width/2}" y="-${chassis_width/2 - wheel_radius}"/>
+  <xacro:wheel_macro wheel_name="wheel_rl" x="-${chassis_length/2 - wheel_width/2}" y="${chassis_width/2 - wheel_radius}"/>
+  <xacro:wheel_macro wheel_name="wheel_rr" x="-${chassis_length/2 - wheel_width/2}" y="-${chassis_width/2 - wheel_radius}"/>
+
+  <!-- Sensor delantero -->
+  <link name="sensor_front_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <material name="red"><color rgba="1 0 0 1"/></material>
+    </visual>
+  </link>
+  <joint name="sensor_front_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="sensor_front_link"/>
+    <origin xyz="${chassis_length/2 + 0.02} 0 ${chassis_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Sensor trasero -->
+  <link name="sensor_back_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.03" length="0.02"/>
+      </geometry>
+      <material name="blue"><color rgba="0 0 1 1"/></material>
+    </visual>
+  </link>
+  <joint name="sensor_back_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="sensor_back_link"/>
+    <origin xyz="-${chassis_length/2 + 0.02} 0 ${chassis_height/2}" rpy="0 0 0"/>
+  </joint>
+
+</robot>

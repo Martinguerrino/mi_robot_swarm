@@ -1,0 +1,13 @@
+# Build / install / log generados por ROS2 / colcon
+build/
+install/
+log/
+
+# Archivos de editor / sistema
+.vscode/
+*.swp
+*.tmp
+
+# Archivos de Python compilados (si usas Python)
+*.pyc
+__pycache__/
