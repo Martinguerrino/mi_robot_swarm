@@ -10,9 +10,10 @@
   <xacro:property name="chassis_zOfffset" value="0.015"/>
  
   <!-- Wheels-->
-  <xacro:property name="wheel_radius" value="3.25"/>
-  <xacro:property name="wheel_width" value="2.8"/>
+  <xacro:property name="wheel_radius" value="0.0325"/>
+  <xacro:property name="wheel_width" value="0.028"/>
   <xacro:property name="wheel_xoffset" value="0.055"/>
+  <xacro:property name="wheel_yoffset" value="0.047"/>
   <xacro:property name="wheel_mass" value="0.032"/>
 
   <!-- Constants-->
