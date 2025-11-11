@@ -13,7 +13,7 @@
   <xacro:property name="wheel_radius" value="0.0325"/>
   <xacro:property name="wheel_width" value="0.028"/>
   <xacro:property name="wheel_xoffset" value="0.055"/>
-  <xacro:property name="wheel_yoffset" value="0.047"/>
+  <xacro:property name="wheel_yoffset" value="${chassis_ylength/2 + wheel_width/2}"/>
   <xacro:property name="wheel_mass" value="0.032"/>
   <xacro:property name="wheel_Izz" value="${0.5*wheel_mass*wheel_radius*wheel_radius}"/>
   <xacro:property name="wheel_Ixx" value="${(1.0/12.0)*wheel_mass*(3.0*wheel_radius*wheel_radius + wheel_width*wheel_width)}"/>
@@ -87,10 +87,10 @@
   </xacro:macro>
 
   <!-- Ruedas (invocar macro) -->
-  <xacro:wheel_macro wheel_name="wheel_fl" x="${chassis_length/2 - wheel_width/2}" y="${chassis_width/2 - wheel_radius}"/>
-  <xacro:wheel_macro wheel_name="wheel_fr" x="${chassis_length/2 - wheel_width/2}" y="-${chassis_width/2 - wheel_radius}"/>
-  <xacro:wheel_macro wheel_name="wheel_rl" x="-${chassis_length/2 - wheel_width/2}" y="${chassis_width/2 - wheel_radius}"/>
-  <xacro:wheel_macro wheel_name="wheel_rr" x="-${chassis_length/2 - wheel_width/2}" y="-${chassis_width/2 - wheel_radius}"/>
+  <xacro:wheel_macro wheel_name="wheel_fl" x="${wheel_xoffset}" y="${wheel_yoffset}"/>
+  <xacro:wheel_macro wheel_name="wheel_fr" x="${wheel_xoffset}" y="${-wheel_yoffset}"/>
+  <xacro:wheel_macro wheel_name="wheel_rl" x="${-wheel_xoffset}" y="${wheel_yoffset}"/>
+  <xacro:wheel_macro wheel_name="wheel_rr" x="${-wheel_xoffset}" y="${-wheel_yoffset}"/>
 
   <!-- Sensor delantero -->
   <link name="sensor_front_link">
