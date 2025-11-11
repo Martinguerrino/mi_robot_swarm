@@ -15,6 +15,10 @@
   <xacro:property name="wheel_xoffset" value="0.055"/>
   <xacro:property name="wheel_yoffset" value="0.047"/>
   <xacro:property name="wheel_mass" value="0.032"/>
+  <xacro:property name="wheel_Izz" value="${0.5*wheel_mass*wheel_radius*wheel_radius}"/>
+  <xacro:property name="wheel_Ixx" value="${(1.0/12.0)*wheel_mass*(3.0*wheel_radius*wheel_radius + wheel_width*wheel_width)}"/>
+  <xacro:property name="wheel_Iyy" value="${wheel_Ixx}"/>
+  <xacro:property name="wheel_Ixz" value="0"/>
 
   <!-- Constants-->
   <xacro:property name="pi" value="3.1415926535"/>
@@ -47,7 +51,7 @@
     </inertial>
   </link>
 
-  <!-- Macro para una rueda -->
+  <!-- Macro for a wheel -->
   <xacro:macro name="wheel_macro" params="wheel_name x y">
     <link name="${wheel_name}_link">
       <visual>
@@ -61,6 +65,17 @@
           <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
         </geometry>
       </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${wheel_mass}"/>
+        <inertia 
+        ixx="$1/12*(3*wheel_radius^2 + wheel_width^2)*wheel_mass" 
+        ixy="0" 
+        ixz="0" 
+        iyy="$1/12*(3*wheel_radius^2 + wheel_width^2)*wheel_mass" 
+        iyz="0" 
+        izz="$1/2*wheel_radius^2*wheel_mass"/>
+      </inertial>
     </link>
 
     <joint name="${wheel_name}_joint" type="continuous">
