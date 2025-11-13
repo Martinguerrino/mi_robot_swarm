@@ -24,3 +24,14 @@ if(BUILD_TESTING)
 endif()
 
 ament_package()
+
+# Install launch, URDF and RViz config so `ros2 launch` can find them from the
+# installed package share directory. This copies the source folders into
+# <install_prefix>/share/mi_robot_description/ so ros2 launch will locate them.
+install(DIRECTORY
+  launch
+  urdf
+  rviz
+  DESTINATION share/${PROJECT_NAME}
+  OPTIONAL
+)

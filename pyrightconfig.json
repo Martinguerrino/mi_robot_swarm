@@ -1,0 +1,9 @@
+{
+  "venvPath": "/opt/ros",
+  "venv": "jazzy",
+  "pythonVersion": "3.12",
+  "extraPaths": [
+    "/opt/ros/jazzy/lib/python3.12/site-packages",
+    "/home/martin/ros2_ws/install/lib/python3.12/site-packages"
+  ]
+}
