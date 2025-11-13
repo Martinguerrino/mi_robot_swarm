@@ -9,6 +9,13 @@
   <xacro:property name="chassis_mass" value="0.670"/>
   <xacro:property name="chassis_zOfffset" value="0.015"/>
  
+  <!-- Backwards-compatible aliases for older property names -->
+  <xacro:property name="chassis_length" value="${chassis_xlength}"/>
+  <xacro:property name="chassis_width" value="${chassis_ylength}"/>
+  <xacro:property name="chassis_height" value="${chassis_zlength}"/>
+  <!-- keep both spellings of zOffset (original had a typo) -->
+  <xacro:property name="chassis_zOffset" value="${chassis_zOfffset}"/>
+
   <!-- Wheels-->
   <xacro:property name="wheel_radius" value="0.0325"/>
   <xacro:property name="wheel_width" value="0.028"/>
@@ -20,8 +27,7 @@
   <xacro:property name="wheel_Iyy" value="${wheel_Ixx}"/>
   <xacro:property name="wheel_Ixz" value="0"/>
 
-  <!-- Constants-->
-  <xacro:property name="pi" value="3.1415926535"/>
+  <!-- Constants (avoid redefining common symbols) -->
  
   <!-- Chasis -->
   <link name="base_link">
@@ -39,17 +45,28 @@
       <origin xyz="0 0 ${chassis_zOfffset}" rpy="0 0 0"/>
     </collision>
     <inertial>
-    <origin xyz="0 0 ${chassis_zOfffset}" rpy="0 0 0"/>
+      <origin xyz="0 0 ${chassis_zOffset}" rpy="0 0 0"/>
       <mass value="${chassis_mass}"/>
-      <inertia 
-      ixx="$1/12*(chassis_ylength^2 + chassis_zlength^2)*chassis_mass" 
-      ixy="0" 
-      ixz="0" 
-      iyy="$1/12*(chassis_xlength^2 + chassis_zlength^2)*chassis_mass" 
-      iyz="0" 
-      izz="$1/12*(chassis_xlength^2 + chassis_ylength^2)*chassis_mass"/>
+      <inertia
+        ixx="${chassis_mass*(chassis_ylength*chassis_ylength + chassis_zlength*chassis_zlength)/12.0}"
+        ixy="0"
+        ixz="0"
+        iyy="${chassis_mass*(chassis_xlength*chassis_xlength + chassis_zlength*chassis_zlength)/12.0}"
+        iyz="0"
+        izz="${chassis_mass*(chassis_xlength*chassis_xlength + chassis_ylength*chassis_ylength)/12.0}"/>
     </inertial>
   </link>
+
+  <!-- Dummy root link to avoid KDL warning about inertia on root link -->
+  <link name="robot_root">
+    <!-- intentionally no inertial element here; KDL does not support inertia on the root link -->
+  </link>
+
+  <joint name="robot_root_joint" type="fixed">
+    <parent link="robot_root"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
 
   <!-- Macro for a wheel -->
   <xacro:macro name="wheel_macro" params="wheel_name x y">
@@ -68,13 +85,13 @@
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="${wheel_mass}"/>
-        <inertia 
-        ixx="$1/12*(3*wheel_radius^2 + wheel_width^2)*wheel_mass" 
-        ixy="0" 
-        ixz="0" 
-        iyy="$1/12*(3*wheel_radius^2 + wheel_width^2)*wheel_mass" 
-        iyz="0" 
-        izz="$1/2*wheel_radius^2*wheel_mass"/>
+        <inertia
+          ixx="${wheel_mass*(3.0*wheel_radius*wheel_radius + wheel_width*wheel_width)/12.0}"
+          ixy="0"
+          ixz="0"
+          iyy="${wheel_mass*(3.0*wheel_radius*wheel_radius + wheel_width*wheel_width)/12.0}"
+          iyz="0"
+          izz="${0.5*wheel_mass*wheel_radius*wheel_radius}"/>
       </inertial>
     </link>
 
