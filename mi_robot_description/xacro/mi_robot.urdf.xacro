@@ -7,14 +7,14 @@
   <xacro:property name="chassis_ylength" value="0.094"/>
   <xacro:property name="chassis_zlength" value="0.073"/>
   <xacro:property name="chassis_mass" value="0.670"/>
-  <xacro:property name="chassis_zOfffset" value="0.015"/>
+  <xacro:property name="chassis_zOffset" value="0.015"/>
  
   <!-- Backwards-compatible aliases for older property names -->
   <xacro:property name="chassis_length" value="${chassis_xlength}"/>
   <xacro:property name="chassis_width" value="${chassis_ylength}"/>
   <xacro:property name="chassis_height" value="${chassis_zlength}"/>
   <!-- keep both spellings of zOffset (original had a typo) -->
-  <xacro:property name="chassis_zOffset" value="${chassis_zOfffset}"/>
+  <xacro:property name="chassis_zOfffset" value="${chassis_zOffset}"/>
 
   <!-- Wheels-->
   <xacro:property name="wheel_radius" value="0.0325"/>
@@ -28,21 +28,21 @@
   <xacro:property name="wheel_Ixz" value="0"/>
 
   <!-- Constants (avoid redefining common symbols) -->
- 
+  <xacro:property name="pi" value="3.14159265358979323846"/>
   <!-- Chasis -->
   <link name="base_link">
     <visual>
       <geometry>
         <box size="${chassis_xlength} ${chassis_ylength} ${chassis_zlength}"/>
       </geometry>
-      <origin xyz="0 0 ${chassis_zOfffset}" rpy="0 0 0"/>
+      <origin xyz="0 0 ${chassis_zOffset}" rpy="0 0 0"/>
       <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
     </visual>
     <collision>
       <geometry>
         <box size="${chassis_xlength} ${chassis_ylength} ${chassis_zlength}"/>
       </geometry>
-      <origin xyz="0 0 ${chassis_zOfffset}" rpy="0 0 0"/>
+      <origin xyz="0 0 ${chassis_zOffset}" rpy="0 0 0"/>
     </collision>
     <inertial>
       <origin xyz="0 0 ${chassis_zOffset}" rpy="0 0 0"/>
@@ -72,18 +72,20 @@
   <xacro:macro name="wheel_macro" params="wheel_name x y">
     <link name="${wheel_name}_link">
       <visual>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
           <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
         </geometry>
         <material name="black"><color rgba="0 0 0 1"/></material>
       </visual>
       <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <geometry>
           <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
         </geometry>
       </collision>
       <inertial>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
         <mass value="${wheel_mass}"/>
         <inertia
           ixx="${wheel_mass*(3.0*wheel_radius*wheel_radius + wheel_width*wheel_width)/12.0}"
@@ -100,6 +102,7 @@
       <child link="${wheel_name}_link"/>
       <origin xyz="${x} ${y} ${-chassis_height/2}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
+      <limit effort="1.0" velocity="30"/>
     </joint>
   </xacro:macro>
 
@@ -121,7 +124,7 @@
   <joint name="sensor_front_joint" type="fixed">
     <parent link="base_link"/>
     <child link="sensor_front_link"/>
-    <origin xyz="${chassis_length/2 + 0.02} 0 ${chassis_height/2}" rpy="0 0 0"/>
+    <origin xyz="${(chassis_length/2.0) + 0.02} 0 ${chassis_height/2.0}" rpy="0 0 0"/>
   </joint>
 
   <!-- Sensor trasero -->
@@ -136,7 +139,7 @@
   <joint name="sensor_back_joint" type="fixed">
     <parent link="base_link"/>
     <child link="sensor_back_link"/>
-    <origin xyz="-${chassis_length/2 + 0.02} 0 ${chassis_height/2}" rpy="0 0 0"/>
+    <origin xyz="${-(chassis_length/2.0 + 0.02)} 0 ${chassis_height/2.0}" rpy="0 0 0"/>
   </joint>
 
 </robot>
