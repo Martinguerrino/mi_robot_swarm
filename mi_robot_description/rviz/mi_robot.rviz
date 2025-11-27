@@ -1,22 +1,73 @@
 Panels:
   - Class: rviz_common/Displays
     Name: Displays
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Name: Tool Properties
   - Class: rviz_common/Views
     Name: Views
+  - Class: rviz_common/Time
+    Name: Time
 Visualization Manager:
-  Global Options:
-    Fixed Frame: robot_root
+  Class: ""
   Displays:
-    - Class: rviz_default_plugins/RobotModel
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Reference Frame: robot_root
+      Plane: XY
+      Plane Cell Count: 20
+      Cell Size: 0.5
+      Color: 160; 160; 160
+      Alpha: 0.6
       Enabled: true
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+    - Class: rviz_default_plugins/RobotModel
       Name: RobotModel
       Robot Description: robot_description
-    - Class: rviz_default_plugins/TF
+      TF Prefix: ""
       Enabled: true
-      Name: TF
+    - Class: rviz_default_plugins/LaserScan
+      Name: LaserScan
+      Topic: /scan
+      Size (m): 0.02
+      Color: 255; 0; 0
+      Style: Flat Squares
+      Queue Size: 10
+      Enabled: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: robot_root
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+    - Class: rviz_default_plugins/SetInitialPose
+      Topic: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic: /goal_pose
+    - Class: rviz_default_plugins/PublishPoint
+      Topic: /clicked_point
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.0
-      Pitch: 0.5
-      Yaw: 0.5
+      Name: Orbit
+      Distance: 2.0
+      Focal Point:
+        X: 0.0
+        Y: 0.0
+        Z: 0.2
+      Pitch: 0.7
+      Yaw: 0.8
+      Target Frame: robot_root
+Window Geometry:
+  Width: 1200
+  Height: 800
+  X: 50
+  Y: 50
