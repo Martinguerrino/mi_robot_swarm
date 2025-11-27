@@ -61,7 +61,7 @@
   <joint name="wheel_fl_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_fl_link"/>
-    <origin rpy="0 0 0" xyz="0.055 0.061 -0.0365"/>
+    <origin rpy="0 0 0" xyz="0.055 0.061 -0.009125"/>
     <axis xyz="0 1 0"/>
     <limit effort="1.0" velocity="30"/>
   </joint>
@@ -90,7 +90,7 @@
   <joint name="wheel_fr_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_fr_link"/>
-    <origin rpy="0 0 0" xyz="0.055 -0.061 -0.0365"/>
+    <origin rpy="0 0 0" xyz="0.055 -0.061 -0.009125"/>
     <axis xyz="0 1 0"/>
     <limit effort="1.0" velocity="30"/>
   </joint>
@@ -119,7 +119,7 @@
   <joint name="wheel_rl_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_rl_link"/>
-    <origin rpy="0 0 0" xyz="-0.055 0.061 -0.0365"/>
+    <origin rpy="0 0 0" xyz="-0.055 0.061 -0.009125"/>
     <axis xyz="0 1 0"/>
     <limit effort="1.0" velocity="30"/>
   </joint>
@@ -148,7 +148,7 @@
   <joint name="wheel_rr_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_rr_link"/>
-    <origin rpy="0 0 0" xyz="-0.055 -0.061 -0.0365"/>
+    <origin rpy="0 0 0" xyz="-0.055 -0.061 -0.009125"/>
     <axis xyz="0 1 0"/>
     <limit effort="1.0" velocity="30"/>
   </joint>
