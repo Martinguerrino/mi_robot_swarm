@@ -37,7 +37,7 @@
   
 
   <!-- Constants (avoid redefining common symbols) -->
-  <xacro:property name="pi" value="3.14159265358979323846"/>
+  <!-- xacro:property name="pi" value="3.141592653589793"/-->
   <!-- Chasis -->
   <link name="base_link">
     <visual>
@@ -181,46 +181,7 @@
     <origin xyz="${-(chassis_length/2.0 + 0.02)} 0 ${chassis_height/2.0}" rpy="0 0 0"/>
   </joint>
 
-<!--gazebo-->
-<plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
-  <render_engine>ogre2</render_engine>
-</plugin>
-
-<gazebo reference= "lidar_link">
-  <sensor name="gpu_lidar" type = "gpu_lidar"> <!--if there's no gpu just use ray-->
-    	<pose> 0 0 0 0 0 0 </pose>
-    	<visualize> true </visualize>
-    	<update_rate> 10 </update_rate>
-		<topic> scan </topic>
-    	<lidar>
-			<scan>
-				<horizontal>
-					<samples> 360 </samples>
-					<resolution> 1 </resolution>
-					<min_angle> ${-pi} </min_angle>
-					<max_angle> ${pi} </max_angle>
-				</horizontal>
-			</scan>
-			<range>
-				<min> 0.3 </min>
-				<max> 12 </max>
-				<resolution> 0.01 </resolution>
-			</range>
-		    <noise>
-				<type> gaussian </type>
-				<mean> 0.0 </mean>
-				<stddev> 0.01 </stddev>
-			</noise>
-		</lidar>
-		<always_on> true </always_on>
-		<visualize> true </visualize>
-		
-    </sensor>
-</gazebo>
-
-	  
-
-    
-
+  <!-- Incluir las definiciones de Gazebo -->
+  <xacro:include filename="$(find mi_robot_description)/xacro/mi_robot.gazebo.xacro" />
 
 </robot>
