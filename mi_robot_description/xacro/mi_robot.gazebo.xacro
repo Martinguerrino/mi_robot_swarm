@@ -14,7 +14,7 @@
             <always_on>1</always_on>
             <update_rate>10</update_rate>
             <topic>/scan</topic>
-            <visualize>true</visualize>
+            <visualize>1</visualize>
             <lidar>
                 <scan>
                     <horizontal>

@@ -37,7 +37,7 @@
   
 
   <!-- Constants (avoid redefining common symbols) -->
-  <!-- xacro:property name="pi" value="3.141592653589793"/-->
+ 
   <!-- Chasis -->
   <link name="base_link">
     <visual>

@@ -2,11 +2,11 @@ import os
 from pathlib import Path
 from ament_index_python.packages import get_package_share_directory, PackageNotFoundError
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, RegisterEventHandler
-from launch.event_handlers import OnProcessExit
+from launch.actions import DeclareLaunchArgument, TimerAction
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Command, FindExecutable
 from launch_ros.actions import Node
 from launch.conditions import IfCondition
+from launch.actions import ExecuteProcess
 
 # ==============================================================================
 #<xacro:property name="pi" value="3.141592653589793"/>
@@ -42,6 +42,11 @@ def generate_launch_description():
         default_value="true",
         description="Iniciar joint_state_publisher_gui"
     )
+    start_gz_arg = DeclareLaunchArgument(
+        "start_gz",
+        default_value="true",
+        description="Arrancar gz sim con mi_mundo.sdf"
+    )
 
     # --- Rutas a los archivos ---
     # Ruta al archivo XACRO
@@ -49,6 +54,7 @@ def generate_launch_description():
     
     # Ruta al archivo de parámetros del bridge
     bridge_params_path = PathJoinSubstitution([pkg_share, "parameters", "bridge_parameters.yaml"])
+    world_path = PathJoinSubstitution([pkg_share, "gazebo", "mi_mundo.sdf"])
 
     # --- Comandos y Nodos ---
     # Comando para procesar el XACRO y obtener la descripción del robot
@@ -56,13 +62,7 @@ def generate_launch_description():
         FindExecutable(name="xacro"), " ", xacro_file_path
     ])
 
-    # 1. Iniciar Gazebo (gz sim)
-    gz_sim_cmd = ExecuteProcess(
-        cmd=[FindExecutable(name="gz"), "sim", "-r", "-v4"],
-        output="screen"
-    )
-
-    # 2. Publicador del estado del robot (robot_state_publisher)
+    # 1. Publicador del estado del robot (robot_state_publisher)
     rsp_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
@@ -71,7 +71,7 @@ def generate_launch_description():
         parameters=[{"robot_description": robot_description_content}]
     )
 
-    # 3. Publicador de estado de las articulaciones (opcional)
+    # 2. Publicador de estado de las articulaciones (opcional)
     jsp_node = Node(
         package="joint_state_publisher_gui",
         executable="joint_state_publisher_gui",
@@ -80,7 +80,7 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("use_gui"))
     )
 
-    # 4. Nodo para "spawnear" (crear) el robot en Gazebo
+    # 3. Nodo para "spawnear" (crear) el robot en Gazebo
     spawn_entity_node = Node(
         package="ros_gz_sim",
         executable="create",
@@ -89,10 +89,12 @@ def generate_launch_description():
             "-name", LaunchConfiguration("robot_name"),
             "-allow_renaming", "true"
         ],
-        output="screen"
+        output="screen",
+        respawn=True,
+        respawn_delay=3.0,
     )
     
-    # 5. Puente para comunicar tópicos entre Gazebo y ROS 2
+    # 4. Puente para comunicar tópicos entre Gazebo y ROS 2
     bridge_node = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -101,23 +103,23 @@ def generate_launch_description():
         output='screen'
     )
 
+    # 5. Nodo para arrancar Gazebo
+    gz_node = ExecuteProcess(
+        cmd=[FindExecutable(name="gz"), "sim", "-r", "-v4", world_path],
+        output="screen",
+        condition=IfCondition(LaunchConfiguration("start_gz"))
+    )
+
     # --- Ensamblaje del LaunchDescription ---
     ld = LaunchDescription()
     ld.add_action(urdf_name_arg)
     ld.add_action(robot_name_arg)
     ld.add_action(use_gui_arg)
-    ld.add_action(gz_sim_cmd)
+    ld.add_action(start_gz_arg)
+    ld.add_action(gz_node)
     ld.add_action(rsp_node)
     ld.add_action(jsp_node)
     ld.add_action(bridge_node)
+    ld.add_action(TimerAction(period=3.0, actions=[spawn_entity_node]))
     
-    # Se usa un manejador de eventos para asegurar que el robot se "spawnea"
-    # solo después de que Gazebo se haya iniciado.
-    ld.add_action(RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=gz_sim_cmd,
-            on_exit=[spawn_entity_node],
-        )
-    ))
-
     return ld
