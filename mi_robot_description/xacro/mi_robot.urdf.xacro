@@ -35,6 +35,11 @@
   <xacro:property name="lidar_Ixx" value="${(1.0/12.0)*lidar_mass*(3.0*lidar_radius*lidar_radius + lidar_length*lidar_length)}"/>
   <xacro:property name="lidar_Iyy" value="${lidar_Ixx}"/>
   
+  <!--IMU-->
+  <xacro:property name="imu_mass" value="0.02"/>
+  <xacro:property name="imu_xlength" value="0.02"/>
+  <xacro:property name="imu_ylength" value="0.02"/>
+  <xacro:property name="imu_zlength" value="0.02"/>
 
   <!-- Constants (avoid redefining common symbols) -->
  
@@ -127,7 +132,7 @@
       <geometry>
         <cylinder radius="${lidar_radius}" length="${lidar_length}"/>
       </geometry>
-      <material name="green"><color rgba="0 1 0 1"/></material>
+      <material name="black"><color rgba="0 0 0 1"/></material>
      </visual>
     <collision>
       <geometry>
@@ -150,6 +155,31 @@
     <parent link="base_link"/>
     <child link="lidar_link"/>
     <origin xyz="0 0 ${chassis_height/2.0 + lidar_length/2.0}" rpy="0 0 0"/>
+  </joint>
+  <!-- imu -->
+  <link name="imu_link">
+    <visual>
+      <geometry>
+        <box size="${imu_xlength} ${imu_ylength} ${imu_zlength}"/>
+      </geometry>
+      <material name="yellow"><color rgba="1 1 0 1"/></material>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${imu_mass}"/>
+      <inertia
+        ixx="${imu_mass*(imu_ylength*imu_ylength + imu_zlength*imu_zlength)/12.0}"
+        ixy="0"
+        ixz="0"
+        iyy="${imu_mass*(imu_xlength*imu_xlength + imu_zlength*imu_zlength)/12.0}"
+        iyz="0"
+        izz="${imu_mass*(imu_xlength*imu_xlength + imu_ylength*imu_ylength)/12.0}"/>
+    </inertial>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 ${chassis_zlength/2.0}" rpy="0 0 0"/>
   </joint>
   <!-- Sensor delantero -->
   <link name="sensor_front_link">
