@@ -10,7 +10,7 @@
 
     <!-- Plugin para el sensor LiDAR -->
     <gazebo reference="lidar_link">
-        <sensor name="lidar_sensor" type="lidar">
+        <sensor name="lidar_sensor" type="gpu_lidar">
             <always_on>1</always_on>
             <update_rate>10</update_rate>
             <topic>/scan</topic>
