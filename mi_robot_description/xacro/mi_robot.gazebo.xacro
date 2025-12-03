@@ -7,6 +7,11 @@
             <render_engine>ogre2</render_engine>
         </plugin>
     </gazebo>
+    <gazebo>
+        <plugin filename="gz-sim-imu-system"
+        name="gz::sim::systems::Imu">
+        </plugin>
+    </gazebo>
 
     <!-- Plugin para el sensor LiDAR -->
     <gazebo reference="lidar_link">
