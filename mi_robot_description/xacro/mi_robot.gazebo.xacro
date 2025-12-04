@@ -118,8 +118,9 @@
             <topic>/cmd_vel</topic>
             <odom_topic>/odom</odom_topic>
             <tf_topic>/tf</tf_topic>
-            <odom_frame_id>robot_odom</odom_frame_id>
-            <robot_base_frame_id>base_link</robot_base_frame_id> 
+            <odom_frame_id>odom</odom_frame_id>          <!-- padre -->
+            <odom_child_frame_id>base_link</odom_child_frame_id> <!-- hijo -->
+            <robot_base_frame>base_link</robot_base_frame>
         </plugin>
     </gazebo>
 

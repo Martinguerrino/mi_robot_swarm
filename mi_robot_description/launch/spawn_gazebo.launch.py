@@ -119,6 +119,16 @@ def generate_launch_description():
     ],
     output="screen"
 )
+    static_root = Node(
+    package="tf2_ros",
+    executable="static_transform_publisher",
+    arguments=[
+        "0", "0", "0", "0", "0", "0",
+        "mi_robot/robot_root",                      # parent (frame del URDF)
+        "robot_root" # child 
+    ],
+    output="screen"
+)
 
     # --- Ensamblaje del LaunchDescription ---
     ld = LaunchDescription()
@@ -130,6 +140,7 @@ def generate_launch_description():
     ld.add_action(rsp_node)
     ld.add_action(jsp_node)
     ld.add_action(static_lidar)
+    ld.add_action(static_root)
     ld.add_action(bridge_node)
     ld.add_action(TimerAction(period=3.0, actions=[spawn_entity_node]))
     
