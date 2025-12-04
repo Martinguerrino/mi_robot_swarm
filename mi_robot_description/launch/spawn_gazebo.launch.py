@@ -109,6 +109,16 @@ def generate_launch_description():
         output="screen",
         condition=IfCondition(LaunchConfiguration("start_gz"))
     )
+    static_lidar = Node(
+    package="tf2_ros",
+    executable="static_transform_publisher",
+    arguments=[
+        "0", "0", "0", "0", "0", "0",
+        "lidar_link",                      # parent (frame del URDF)
+        "mi_robot/robot_root/lidar_sensor" # child (el frame del scan)
+    ],
+    output="screen"
+)
 
     # --- Ensamblaje del LaunchDescription ---
     ld = LaunchDescription()
@@ -119,6 +129,7 @@ def generate_launch_description():
     ld.add_action(gz_node)
     ld.add_action(rsp_node)
     ld.add_action(jsp_node)
+    ld.add_action(static_lidar)
     ld.add_action(bridge_node)
     ld.add_action(TimerAction(period=3.0, actions=[spawn_entity_node]))
     
