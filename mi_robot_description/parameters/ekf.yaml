@@ -1,0 +1,45 @@
+ekf_filter_node:
+  ros__parameters:
+
+    frequency: 50.0
+    two_d_mode: true
+
+    publish_tf: true
+    publish_acceleration: false   # ← RECOMENDADO PARA TU CASO
+
+    # Frame IDs
+    map_frame: "map"
+    odom_frame: "mi_robot/odom"
+    world_frame: "mi_robot/odom"
+    base_link_frame: "base_link"
+
+    # ---- ODOMETRÍA ----
+    odom0: /odom
+    odom0_config: [true,  true,  false,
+                   false, false, true,
+                   false, false, false,
+                   false, false, false,
+                   false, false, false]
+
+    # Pose (x, y), yaw, velocity angular
+
+    odom0_differential: false
+    odom0_relative: false
+
+    # ---- IMU ----
+    imu0: /imu/data
+    imu0_config: [false, false, false,
+                  false, false, true,
+                  true,  true,  true,
+                  false, false, false,
+                  false, false, false]
+
+    # Yaw, velocities angulares y aceleraciones
+
+    imu0_differential: false
+    imu0_relative: false
+    imu0_remove_gravitational_acceleration: true
+
+    # Covariances recomendadas si no vienen del sensor
+    imu0_numerical_reject: true
+    odom0_numerical_reject: true
