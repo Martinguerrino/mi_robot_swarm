@@ -94,6 +94,7 @@ def generate_launch_description():
         output="screen",
         respawn=False,
         respawn_delay=3.0,
+        parameters=[{"use_sim_time": True}]
     )
     
     # 4. Puente para comunicar tópicos entre Gazebo y ROS 2
@@ -101,7 +102,8 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         name='gz_bridge',
-        parameters=[{'config_file': bridge_params_path}],
+        parameters=[{'config_file': bridge_params_path,
+                     "use_sim_time": True}],
         output='screen'
     )
 
