@@ -68,7 +68,8 @@ def generate_launch_description():
         executable="robot_state_publisher",
         name="robot_state_publisher",
         output="screen",
-        parameters=[{"robot_description": robot_description_content}]
+        parameters=[{"robot_description": robot_description_content,
+                     "use_sim_time": True}]
     )
 
     # 2. Publicador de estado de las articulaciones (opcional)
@@ -77,7 +78,8 @@ def generate_launch_description():
         executable="joint_state_publisher",
         name="joint_state_publisher",
         output="screen",
-        condition=IfCondition(LaunchConfiguration("use_gui"))
+        condition=IfCondition(LaunchConfiguration("use_gui")),
+        parameters=[{"use_sim_time": True}]
     )
 
     # 3. Nodo para "spawnear" (crear) el robot en Gazebo
