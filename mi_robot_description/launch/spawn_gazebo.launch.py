@@ -121,7 +121,8 @@ def generate_launch_description():
         "lidar_link",                      # parent (frame del URDF)
         "mi_robot/robot_root/lidar_sensor" # child (el frame del scan)
     ],
-    output="screen"
+    output="screen",
+    parameters=[{"use_sim_time": True}]
 )
     static_root = Node(
     package="tf2_ros",
@@ -131,7 +132,8 @@ def generate_launch_description():
         "mi_robot/robot_root",                      # parent (frame del URDF)
         "robot_root" # child 
     ],
-    output="screen"
+    output="screen",
+    parameters=[{"use_sim_time": True}]
 )
 
     # --- Ensamblaje del LaunchDescription ---
