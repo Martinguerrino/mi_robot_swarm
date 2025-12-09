@@ -1,0 +1,19 @@
+
+nav2_controller:
+  ros__parameters:
+    base_frame_id: mi_robot/robot_root
+    odom_frame_id: mi_robot/odom
+    global_frame: map
+nav2_planner:
+  ros__parameters:
+    base_frame_id: mi_robot/robot_root
+    odom_frame_id: mi_robot/odom
+    global_frame: map
+local_costmap:
+  ros__parameters:
+    robot_base_frame: mi_robot/robot_root
+    global_frame: mi_robot/odom
+global_costmap:
+  ros__parameters:
+    robot_base_frame: mi_robot/robot_root
+    global_frame: map

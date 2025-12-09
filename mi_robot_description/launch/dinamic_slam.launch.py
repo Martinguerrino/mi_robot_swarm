@@ -17,7 +17,12 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([
             get_package_share_directory('slam_toolbox'),
             '/launch/online_async_launch.py'
-        ])
+        ]),
+        launch_arguments={'slam_params_file': os.path.join(
+            get_package_share_directory('mi_robot_description'),
+            'parameters',
+            'slam_toolbox_params.yaml'
+        )}.items()
     )
 
     # 3 - Nav2
@@ -26,7 +31,12 @@ def generate_launch_description():
             get_package_share_directory('nav2_bringup'),
             '/launch/navigation_launch.py'
         ]),
-        launch_arguments={'use_sim_time': 'true'}.items()
+        launch_arguments={'use_sim_time': 'true',
+                          'params_file': os.path.join(
+                              get_package_share_directory('mi_robot_description'),
+                              'parameters',
+                              'nav2_params.yaml'
+                          )}.items()
     )
 
     # 4 - Explore Lite
@@ -48,6 +58,6 @@ def generate_launch_description():
     ld = LaunchDescription()
     ld.add_action(slam)
     ld.add_action(nav2)
-    ld.add_action(explore)
+    #ld.add_action(explore)
     ld.add_action(ekf)
     return ld

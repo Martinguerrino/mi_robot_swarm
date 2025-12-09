@@ -5,13 +5,13 @@ ekf_filter_node:
     two_d_mode: true
 
     publish_tf: true
-    publish_acceleration: false   # ← RECOMENDADO PARA TU CASO
+    publish_acceleration: false   
 
     # Frame IDs
     map_frame: "map"
     odom_frame: "mi_robot/odom"
     world_frame: "mi_robot/odom"
-    base_link_frame: "base_link"
+    base_link_frame: "mi_robot/robot_root"
 
     # ---- ODOMETRÍA ----
     odom0: /odom

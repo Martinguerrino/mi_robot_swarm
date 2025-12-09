@@ -1,0 +1,8 @@
+slam_toolbox:
+  ros__parameters:
+    use_sim_time: true
+    map_frame: map
+    odom_frame: mi_robot/odom
+    base_frame: mi_robot/robot_root
+    scan_topic: /scan
+    publish_tf: true
