@@ -1,8 +1,31 @@
 slam_toolbox:
   ros__parameters:
-    use_sim_time: true
-    map_frame: map
+    # Frames - ajustá a los tuyos
     odom_frame: mi_robot/odom
+    map_frame: map
     base_frame: mi_robot/robot_root
     scan_topic: /scan
-    publish_tf: true
+
+    use_sim_time:  true
+    mode: mapping
+
+    # Resolución del mapa
+    resolution: 0.05
+    max_laser_range: 12.0
+
+    # Parámetros de loop closure
+    do_loop_closing: true
+    loop_match_minimum_chain_size: 3
+
+    # Frecuencias
+    transform_publish_period: 0.02
+    map_update_interval: 2.0
+
+    # Otros
+    minimum_travel_distance: 0.3
+    minimum_travel_heading: 0.3
+
+    transform_timeout: 0.5
+    tf_buffer_duration: 30.0
+    scan_buffer_size: 10
+    throttle_scans:  1

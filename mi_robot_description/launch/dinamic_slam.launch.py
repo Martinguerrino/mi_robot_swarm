@@ -18,10 +18,12 @@ def generate_launch_description():
             get_package_share_directory('slam_toolbox'),
             '/launch/online_async_launch.py'
         ]),
-        launch_arguments={'slam_params_file': os.path.join(
+        launch_arguments={'use_sim_time': 'true',
+                          'slam_params_file': os.path.join(
             get_package_share_directory('mi_robot_description'),
             'parameters',
-            'slam_toolbox_params.yaml'
+            'slam_toolbox_params.yaml',
+            
         )}.items()
     )
 
@@ -56,8 +58,9 @@ def generate_launch_description():
             parameters=[ekf_params_path, {'use_sim_time': True}]
         )
     ld = LaunchDescription()
+    #ld.add_action(ekf)
     ld.add_action(slam)
     ld.add_action(nav2)
     #ld.add_action(explore)
-    ld.add_action(ekf)
+    
     return ld
