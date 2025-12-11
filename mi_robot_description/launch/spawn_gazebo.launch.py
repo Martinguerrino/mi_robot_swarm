@@ -54,7 +54,7 @@ def generate_launch_description():
     
     # Ruta al archivo de parámetros del bridge
     bridge_params_path = PathJoinSubstitution([pkg_share, "parameters", "bridge_parameters.yaml"])
-    world_path = PathJoinSubstitution([pkg_share, "gazebo", "mi_mundo.sdf"])
+    world_path = PathJoinSubstitution([pkg_share, "gazebo", "Depot/model.sdf"])
 
     # --- Comandos y Nodos ---
     # Comando para procesar el XACRO y obtener la descripción del robot
