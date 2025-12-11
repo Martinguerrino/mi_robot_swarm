@@ -21,6 +21,10 @@ ekf_filter_node:
                    false, false, true,
                    false, false, false]
 
+    # Alineamos nombres de frames con el DiffDrive (que publica child_frame_id robot_root)
+    odom0_frame_id: "mi_robot/odom"
+    odom0_child_frame_id: "mi_robot/robot_root"
+
     # Pose (x, y), yaw, velocity angular
 
     odom0_differential: false
@@ -36,4 +40,5 @@ ekf_filter_node:
 
 
     imu0_remove_gravitational_acceleration: true
+    imu0_relative: true
 

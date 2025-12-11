@@ -102,6 +102,7 @@ local_costmap:
           clearing: true
           marking: true
           data_type: "LaserScan"
+          
       inflation_layer:
         plugin:  "nav2_costmap_2d::InflationLayer"
         inflation_radius: 0.45
@@ -258,3 +259,21 @@ docking_server:
         - 0.0
         - 0.0
         - 0.0
+
+# Lifecycle manager: reducimos bond_timeout para que el handshake sea más rápido
+lifecycle_manager_navigation:
+  ros__parameters:
+    autostart: true
+    bond_timeout: 2.0
+    bond_retry_count: 3
+    node_names:
+      - controller_server
+      - smoother_server
+      - planner_server
+      - route_server
+      - behavior_server
+      - bt_navigator
+      - waypoint_follower
+      - velocity_smoother
+      - collision_monitor
+      - docking_server

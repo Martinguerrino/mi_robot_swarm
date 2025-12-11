@@ -136,6 +136,17 @@ def generate_launch_description():
     output="screen",
     parameters=[{"use_sim_time": True}]
 )
+    static_odom = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        arguments=[
+            "0", "0", "0", "0", "0", "0",
+            "odom",                      
+            "mi_robot/odom" 
+        ],
+        output="screen",
+        parameters=[{"use_sim_time": True}]
+    )
 
     # --- Ensamblaje del LaunchDescription ---
     ld = LaunchDescription()
@@ -148,6 +159,7 @@ def generate_launch_description():
     ld.add_action(jsp_node)
     ld.add_action(static_lidar)
     ld.add_action(static_root)
+    ld.add_action(static_odom)
     ld.add_action(bridge_node)
     ld.add_action(TimerAction(period=3.0, actions=[spawn_entity_node]))
     

@@ -17,19 +17,8 @@
   gz_type_name: "gz.msgs.Odometry"
   direction: GZ_TO_ROS
 
-# Puente para las transformaciones (odom -> base_link)
-- topic_name: "/tf"
-  ros_type_name: "tf2_msgs/msg/TFMessage"
-  gz_type_name: "gz.msgs.Pose_V"
-  direction: GZ_TO_ROS
+# (Se omite /tf para evitar colisiones con TF publicado por EKF/SLAM)
 
-- topic_name: "/tf_static"
-  ros_type_name: "tf2_msgs/msg/TFMessage"
-  gz_type_name: "gz.msgs.Pose_V"
-  direction: GZ_TO_ROS
-  ros_qos_override:
-    publisher:
-      durability: TRANSIENT_LOCAL
 # Puente para comandos de imu 
 - topic_name: "/imu/data"
   ros_type_name: "sensor_msgs/msg/Imu"

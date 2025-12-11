@@ -4,6 +4,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 import os
+from launch.actions import TimerAction
 
 def generate_launch_description():
 
@@ -34,6 +35,7 @@ def generate_launch_description():
             '/launch/navigation_launch.py'
         ]),
         launch_arguments={'use_sim_time': 'true',
+                          'log_level': 'debug',
                           'params_file': os.path.join(
                               get_package_share_directory('mi_robot_description'),
                               'parameters',
@@ -58,9 +60,11 @@ def generate_launch_description():
             parameters=[ekf_params_path, {'use_sim_time': True}]
         )
     ld = LaunchDescription()
-    #ld.add_action(ekf)
+    ld.add_action(ekf)
     ld.add_action(slam)
-    ld.add_action(nav2)
+    #delay 5 segundos para asegurar que SLAM Toolbox esté listo
+    ld.add_action(TimerAction(period=5.0, actions=[nav2]))
+    #ld.add_action(nav2)
     #ld.add_action(explore)
     
     return ld
