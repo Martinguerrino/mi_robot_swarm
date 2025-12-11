@@ -89,7 +89,8 @@ def generate_launch_description():
         arguments=[
             "-topic", "robot_description",
             "-name", LaunchConfiguration("robot_name"),
-            "-allow_renaming", "false"
+            "-allow_renaming", "false",
+            "-z", "0.5"
         ],
         output="screen",
         respawn=False,
