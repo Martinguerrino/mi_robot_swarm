@@ -43,14 +43,7 @@ def generate_launch_description():
                           )}.items()
     )
 
-    # 4 - Explore Lite
-    explore = Node(
-        package='explore_lite',
-        executable='explore',
-        name='explore',
-        output='screen',
-        parameters=[{'use_sim_time': True}]
-    )
+    
     # 5 - EKF Localization
     ekf = Node(
             package='robot_localization',
@@ -64,7 +57,6 @@ def generate_launch_description():
     ld.add_action(slam)
     #delay 5 segundos para asegurar que SLAM Toolbox esté listo
     ld.add_action(TimerAction(period=5.0, actions=[nav2]))
-    #ld.add_action(nav2)
-    #ld.add_action(explore)
+    
     
     return ld

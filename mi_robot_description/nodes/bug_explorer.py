@@ -15,8 +15,8 @@ class BugExplorer(Node):
 
         # Params (simple y confiable)
         self.declare_parameter('use_scan_topic', '/scan')
-        self.declare_parameter('forward_speed', 0.12)
-        self.declare_parameter('turn_speed', 0.7)
+        self.declare_parameter('forward_speed', 0.5)
+        self.declare_parameter('turn_speed', 0.3)
         self.declare_parameter('safe_distance', 0.45)     # cuando frenar y pasar a TURN
         self.declare_parameter('clear_distance', 0.60)    # cuando considerar “libre” para volver a avanzar
         self.declare_parameter('loop_rate', 10.0)
@@ -48,7 +48,7 @@ class BugExplorer(Node):
         self.latest_scan = msg
 
     def get_range_sector(self, msg: LaserScan, angle_center_deg: float, width_deg: float):
-        # Devuelve distancia mínima en sector centrado en angle_center_deg (robot frame, degrees)
+        # Devuelve distancia mínima en sector centrado en angle_center_deg
         if msg is None:
             return float('inf')
         angle_center = math.radians(angle_center_deg)
